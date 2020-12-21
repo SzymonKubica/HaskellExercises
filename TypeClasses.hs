@@ -59,6 +59,35 @@ instance Show Time where
   show (WallClock 12 00 Am) = "Midnight"
   show (WallClock h m ampm)   = (show h) ++ "-" ++ (show m) ++ (show ampm) 
 
+type VarName = String
+
+data Fun = Add | Sub | Mul
+         deriving (Eq, Show) 
+
+data Exp = Val Int | Id Varname | App Fun Exp Exp
+         deriving (Eq, Show) 
+
+type Assignment = (VarName, Exp)
+
+type Progam = [Statement]
+
+data Statement = A Assignment | Loop Int Program
+
+type Environment a = [(String, a)]
+
+infixl 1 <--
+(<--) :: Varname -> Exp -> Statement
+(<--) 
+  = (A .) . (,)
+
+loop :: Int -> Program -> Statement
+loop = Loop
+
+class Vars a where
+  x, y, z :: a
+
+
+
 
 
 
